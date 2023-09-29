@@ -9,8 +9,8 @@ namespace InterpretedAssembly_ {
         private static Dictionary<string, List<Token>> _Labels;
         private static Dictionary<string, string> _CodeStrings;
 
-        public static Dictionary<string, Func<object?, object?>> Functions = new() { 
-            {"write", new Func<object?, object?>(RuntimeFunctions.Write) } 
+        public static Dictionary<string, Action<object>> Functions = new() { 
+            {"write", new Action<object>(RuntimeFunctions.Write) } 
         };
         public Interpreter(Dictionary<string, List<Token>> labels, Dictionary<string, string> codeStrings) {
             _Labels = labels;
@@ -38,16 +38,7 @@ namespace InterpretedAssembly_ {
                         CPU.SetRegister(left.Name, CPU.GetRegister(left.Name) + CPU.GetRegister(right.Name));
                         i = i + 2;
                     } else if (token.Name == "cmp") {
-                        Token left = new(TokenType.OPERAND);
-                        Token right = new(TokenType.OPERAND);
-                        try  {
-                            left = tokens[i + 1];
-                            right = tokens[i + 2];
-                        }
-                        catch {
-                            Console.WriteLine("Left or right side invalid");
-                            Environment.Exit(1);
-                        }
+                        VerifyInstruction(out Token left, out Token right, i, ref tokens, 2);
 
                         int leftValue = CPU.GetRegister(left.Name);
                         int? rightValue = right.Value;
@@ -60,17 +51,8 @@ namespace InterpretedAssembly_ {
 
                         i = i + 2;
                     } else if (token.Name == "jmp") {
-                        Token left = new(TokenType.OPERAND);
-                        try {
-                            left = tokens[i + 1];
-                        }
-                        catch {
-                            Console.WriteLine("Left side invalid");
-                            Environment.Exit(1);
-                        }
-
+                        VerifyInstruction(out Token left, out Token right, i, ref tokens, 2);
                         InterpretLabel(left.Name);
-
                         i = i + 1;
                     }
                 } else if (token.Type == TokenType.FUNCTION) {

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace InterpretedAssembly_ {
     public static class RuntimeFunctions {
-        public static object? Write(object? msg) {
+        public static void Write(object msg) {
             Console.WriteLine(msg);
-            return null;
         }
     }
 }
