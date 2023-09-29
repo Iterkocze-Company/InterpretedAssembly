@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "InterpretedAssembly#": {
+      "commandName": "Project",
+      "commandLineArgs": "main.ia",
+      "workingDirectory": "F:\\src\\visual studio\\InterpretedAssembly#"
+    }
+  }
+}
