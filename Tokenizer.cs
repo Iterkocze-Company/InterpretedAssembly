@@ -18,7 +18,7 @@ namespace InterpretedAssembly_ {
             Dictionary<string, List<Token>> lables = new();
             string source = File.ReadAllText(path);
             string[] strings = source.Split(DELIMETERS);
-            Dictionary<string, List<Token>> labels = new();
+            Dictionary<string, List<Token>> labels = new(); 
             labels[CurrentLabel] = new List<Token>();
             
 
